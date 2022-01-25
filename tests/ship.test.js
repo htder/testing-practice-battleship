@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { Ship } from '../main';
+import Ship from '../factories/ship';
 
 test('length of ship correct', () => {
   const ship = Ship(6);

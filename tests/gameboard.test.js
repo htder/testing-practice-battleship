@@ -1,5 +1,6 @@
 import { expect, test } from '@jest/globals';
-import { GameBoard, Ship } from '../main';
+import GameBoard from '../factories/gameboard';
+import Ship from '../factories/ship';
 
 test('placing ship vertically', () => {
   const gameBoard = GameBoard();
