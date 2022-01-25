@@ -1,0 +1,26 @@
+{
+  "name": "battleship-project",
+  "description": "",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/htder/testing-practice-battleship.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/htder/testing-practice-battleship/issues"
+  },
+  "homepage": "https://github.com/htder/testing-practice-battleship#readme",
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
