@@ -66,12 +66,12 @@ const GameBoard = function GameBoard() {
     if (gameArray[x][y].ship) {
       gameArray[x][y].ship.hit();
       if (allShipsSunk) {
-        return 'Winner';
+        return true;
       }
     } else {
       missedHits.push([x, y]);
     }
-    return 'keep playing';
+    return false;
   };
 
   gameBoard.getBoard = function gameBoard() {
