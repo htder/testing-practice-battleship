@@ -52,12 +52,26 @@ const GameBoard = function GameBoard() {
     }
   };
 
+  function allShipsSunk() {
+    let count = 0;
+    gameBoard.forEach((square) => {
+      if (square.ship.isSunk) {
+        count += 1;
+      }
+    });
+    return count === 17;
+  }
+
   gameBoard.receiveAttack = function receiveAttack(x, y) {
     if (gameArray[x][y].ship) {
       gameArray[x][y].ship.hit();
+      if (allShipsSunk) {
+        return 'Winner';
+      }
     } else {
       missedHits.push([x, y]);
     }
+    return 'keep playing';
   };
 
   gameBoard.getBoard = function gameBoard() {
