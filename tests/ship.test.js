@@ -8,7 +8,13 @@ test('length of ship correct', () => {
 
 test('mark correct position as hit', () => {
   const ship = Ship(2);
-  expect(ship.hit(0)).toEqual([1, 0]);
+  expect(ship.hit()).toEqual([1, 0]);
+});
+
+test('mark correct position as hit twice', () => {
+  const ship = Ship(2);
+  ship.hit();
+  expect(ship.hit()).toEqual([1, 1]);
 });
 
 test('the ship has sunk', () => {

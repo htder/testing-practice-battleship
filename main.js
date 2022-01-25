@@ -1,5 +1,6 @@
 const Ship = function Ship(length) {
   const ship = {};
+  let nextPosition = 0;
 
   ship.positions = [];
   (function fillShipPositions() {
@@ -13,9 +14,8 @@ const Ship = function Ship(length) {
   };
 
   ship.hit = function hit() {
-    let index = 0;
-    ship.positions[index] = 1;
-    index += 1;
+    ship.positions[nextPosition] = 1;
+    nextPosition += 1;
     return ship.positions;
   };
 
@@ -74,7 +74,7 @@ const GameBoard = function GameBoard() {
     return false;
   };
 
-  gameBoard.getBoard = function gameBoard() {
+  gameBoard.getBoard = function getBoard() {
     return gameArray;
   };
 
@@ -85,4 +85,39 @@ const GameBoard = function GameBoard() {
   return gameBoard;
 };
 
-export { Ship, GameBoard };
+const Player = function Player() {
+  const player = {};
+  const alreadyHit = [];
+
+  function isAlreadyHit(x, y) {
+    for (let i = 0; i < alreadyHit.length; i += 1) {
+      if (alreadyHit[i][0] === x && alreadyHit[i][1] === y) return true;
+    }
+    return false;
+  }
+
+  player.attack = function attack(x, y, gameboard) {
+    if (isAlreadyHit(x, y)) return;
+    alreadyHit.push([x, y]);
+    gameboard.receiveAttack(x, y);
+  };
+
+  player.randomAttack = function randomAttack(gameboard) {
+    if (alreadyHit.length === 100) return;
+
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
+
+    while (isAlreadyHit(x, y)) {
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+    }
+
+    this.alreadyHit.push([x, y]);
+    gameboard.receiveAttack(x, y);
+  };
+
+  return player;
+};
+
+export { Ship, GameBoard, Player };
