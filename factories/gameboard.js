@@ -13,6 +13,27 @@ const GameBoard = function GameBoard() {
   };
   fillGameArray();
 
+  gameBoard.isShipPlacementValid = function isShipPlacementValid(
+    x,
+    y,
+    alignment,
+    ship
+  ) {
+    for (let i = 0; i < ship.getLength(); i += 1) {
+      if (alignment === 'h') {
+        if (y + i > 9 || gameArray[x][y + i].ship) {
+          return false;
+        }
+      }
+      if (alignment === 'v') {
+        if (x + i > 9 || gameArray[x + i][y].ship) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   gameBoard.placeShip = function placeShip(x, y, alignment, ship) {
     for (let i = 0; i < ship.getLength(); i += 1) {
       if (alignment === 'h') {
