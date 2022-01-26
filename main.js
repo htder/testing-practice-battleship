@@ -2,6 +2,8 @@ import GameBoard from '../factories/gameboard.js';
 import Ship from '../factories/ship.js';
 import Player from '../factories/player.js';
 
+let turn = 1;
+
 const createRandShipPlacement = function () {
   return [
     Math.floor(Math.random() * 10),
@@ -94,8 +96,16 @@ showPlayerShipPosition(cGameBoard, gridContainer2);
 
 gridContainer2.addEventListener('click', (event) => {
   const [name, x, y] = event.target.dataset.info.split(',');
-  if (cGameBoard.getBoard()[x][y].ship) {
+  if (turn) {
     const cell = event.target;
-    cell.style.backgroundColor = 'blue';
+    if (cGameBoard.getBoard()[x][y].ship) {
+      cell.style.backgroundColor = 'blue';
+    } else {
+      cell.style.backgroundColor = 'grey';
+    }
+    turn = 0;
   }
+
+  const playersCells = Array.from(gridContainer1.childNodes);
+  console.log(playersCells);
 });
