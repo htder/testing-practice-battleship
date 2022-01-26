@@ -86,13 +86,12 @@ const showPlayerShipPosition = function showPlayerShipPosition(
     const [, x, y] = cell.dataset.info.split(',');
     // console.log(`${name} ${x} ${y}`);
     if (playerGameBoard[x][y].ship) {
-      cell.style.backgroundColor = 'red';
+      cell.style.backgroundColor = 'blue';
     }
   });
 };
 
 showPlayerShipPosition(pGameBoard, gridContainer1);
-showPlayerShipPosition(cGameBoard, gridContainer2);
 
 function displayWinner(winner) {
   while (flexContainer.firstChild) {
@@ -120,7 +119,7 @@ gridContainer2.addEventListener('click', (event) => {
     const cell = event.target;
     if (cell.classList.contains('previous')) return;
     if (cGameBoard.getBoard()[x][y].ship) {
-      cell.style.backgroundColor = 'blue';
+      cell.style.backgroundColor = 'red';
       playerScore += 1;
     } else {
       cell.style.backgroundColor = 'grey';
@@ -141,7 +140,7 @@ gridContainer2.addEventListener('click', (event) => {
   const computerCell = playersCells[random];
   const [, xC, yC] = computerCell.dataset.info.split(',');
   if (pGameBoard.getBoard()[xC][yC].ship) {
-    computerCell.style.backgroundColor = 'blue';
+    computerCell.style.backgroundColor = 'red';
     computerScore += 1;
   } else {
     computerCell.style.backgroundColor = 'grey';
