@@ -1,6 +1,12 @@
-const Player = function Player() {
+const Player = function Player(name) {
   const player = {};
   const alreadyHit = [];
+
+  player.name = name;
+
+  player.getName = function getName() {
+    return player.name;
+  };
 
   function isAlreadyHit(x, y) {
     for (let i = 0; i < alreadyHit.length; i += 1) {
