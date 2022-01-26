@@ -10,43 +10,68 @@ const createRandShipPlacement = function () {
   ];
 };
 
+const placeShip = function (ship, gameboard) {
+  let randomPlacement = createRandShipPlacement();
+  let isPlacmentValid = gameboard.isShipPlacementValid(
+    ...randomPlacement,
+    ship
+  );
+  while (!isPlacmentValid) {
+    randomPlacement = createRandShipPlacement();
+    isPlacmentValid = gameboard.isShipPlacementValid(...randomPlacement, ship);
+  }
+  gameboard.placeShip(...randomPlacement, ship);
+};
+
+const player = Player('player1');
+const computer = Player('player2');
+
 const createNewGame = function () {
   // users game items
-  const player = Player('player1');
-  const pGameBoard = GameBoard();
-  const pShip2 = Ship(2);
-  const pShip31 = Ship(3);
-  const pShip32 = Ship(3);
-  const pShip4 = Ship(4);
-  const pShip5 = Ship(5);
 
+  const pGameBoard = GameBoard();
   const pShips = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
-  pShips.forEach((ship) => {
-    let randomPlacement = createRandShipPlacement();
-    let isPlacmentValid = pGameBoard.isShipPlacementValid(
-      ...randomPlacement,
-      ship
-    );
-    while (!isPlacmentValid) {
-      randomPlacement = createRandShipPlacement();
-      isPlacmentValid = pGameBoard.isShipPlacementValid(
-        ...randomPlacement,
-        ship
-      );
-    }
-    pGameBoard.placeShip(...randomPlacement, ship);
-    console.log(...randomPlacement, ship);
-    console.table(pGameBoard.getBoard());
-  });
+
+  pShips.forEach((ship) => placeShip(ship, pGameBoard));
 
   // computers game items
-  const computer = Player('player2');
   const cGameBoard = GameBoard();
-  const cShip2 = Ship(2);
-  const cShip31 = Ship(3);
-  const cShip32 = Ship(3);
-  const cShip4 = Ship(4);
-  const cShip5 = Ship(5);
+  const cShips = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
+  cShips.forEach((ship) => placeShip(ship, cGameBoard));
 };
 
 createNewGame();
+
+const gridContainer1 = document.createElement('div');
+gridContainer1.classList.add('grid-container');
+gridContainer1.classList.add('player');
+
+const gridContainer2 = document.createElement('div');
+gridContainer2.classList.add('grid-container');
+gridContainer2.classList.add('computer');
+
+const flexContainer = document.querySelector('.flex-container');
+
+function createGrid(gridSize, user) {
+  let gridContainer;
+  if (user.name === 'player1') {
+    gridContainer = gridContainer1;
+  } else {
+    gridContainer = gridContainer2;
+  }
+  const dimension = `${360 / gridSize}px`;
+  for (let i = 0; i < gridSize * gridSize; i += 1) {
+    const gridItem = document.createElement('div');
+    gridItem.style.width = dimension;
+    gridItem.style.height = dimension;
+    gridItem.classList.add('colorCell0');
+
+    gridContainer.appendChild(gridItem);
+  }
+  gridContainer.style.gridTemplateRows = `repeat(${gridSize}, ${dimension})`;
+  gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, ${dimension})`;
+  flexContainer.append(gridContainer);
+}
+
+createGrid(10, player);
+createGrid(10, computer);
