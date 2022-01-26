@@ -95,8 +95,8 @@ showPlayerShipPosition(pGameBoard, gridContainer1);
 showPlayerShipPosition(cGameBoard, gridContainer2);
 
 gridContainer2.addEventListener('click', (event) => {
-  const [name, x, y] = event.target.dataset.info.split(',');
   if (turn) {
+    const [name, x, y] = event.target.dataset.info.split(',');
     const cell = event.target;
     if (cGameBoard.getBoard()[x][y].ship) {
       cell.style.backgroundColor = 'blue';
@@ -107,5 +107,13 @@ gridContainer2.addEventListener('click', (event) => {
   }
 
   const playersCells = Array.from(gridContainer1.childNodes);
-  console.log(playersCells);
+  const random = Math.floor(Math.random() * 100);
+  const computerCell = playersCells[random];
+  const [nameC, xC, yC] = computerCell.dataset.info.split(',');
+  if (pGameBoard.getBoard()[xC][yC].ship) {
+    computerCell.style.backgroundColor = 'blue';
+  } else {
+    computerCell.style.backgroundColor = 'grey';
+  }
+  turn = 1;
 });
