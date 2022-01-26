@@ -24,23 +24,17 @@ const placeShip = function (ship, gameboard) {
 };
 
 const player = Player('player1');
+const pGameBoard = GameBoard();
 const computer = Player('computer');
+const cGameBoard = GameBoard();
 
-const createNewGame = function () {
-  // users game items
-
-  const pGameBoard = GameBoard();
-  const pShips = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
-
-  pShips.forEach((ship) => placeShip(ship, pGameBoard));
-
-  // computers game items
-  const cGameBoard = GameBoard();
-  const cShips = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
-  cShips.forEach((ship) => placeShip(ship, cGameBoard));
+const createNewGame = function createNewGame(gameboard) {
+  const ships = [Ship(2), Ship(3), Ship(3), Ship(4), Ship(5)];
+  ships.forEach((ship) => placeShip(ship, gameboard));
 };
 
-createNewGame();
+createNewGame(pGameBoard);
+createNewGame(cGameBoard);
 
 const gridContainer1 = document.createElement('div');
 gridContainer1.classList.add('grid-container');
@@ -52,7 +46,8 @@ gridContainer2.classList.add('computer');
 
 const flexContainer = document.querySelector('.flex-container');
 
-function createGrid(gridSize, user) {
+function createGrid(user) {
+  const gridSize = 10;
   let gridContainer;
   if (user.name === 'player1') {
     gridContainer = gridContainer1;
@@ -76,5 +71,31 @@ function createGrid(gridSize, user) {
   flexContainer.append(gridContainer);
 }
 
-createGrid(10, player);
-createGrid(10, computer);
+createGrid(player);
+createGrid(computer);
+
+const showPlayerShipPosition = function showPlayerShipPosition(
+  gameboard,
+  gridContainer
+) {
+  const playerGameBoard = gameboard.getBoard();
+  //   console.log(playerGameBoard);
+  Array.from(gridContainer.childNodes).forEach((cell) => {
+    const [name, x, y] = cell.dataset.info.split(',');
+    // console.log(`${name} ${x} ${y}`);
+    if (playerGameBoard[x][y].ship) {
+      cell.style.backgroundColor = 'red';
+    }
+  });
+};
+
+showPlayerShipPosition(pGameBoard, gridContainer1);
+showPlayerShipPosition(cGameBoard, gridContainer2);
+
+gridContainer2.addEventListener('click', (event) => {
+  const [name, x, y] = event.target.dataset.info.split(',');
+  if (cGameBoard.getBoard()[x][y].ship) {
+    const cell = event.target;
+    cell.style.backgroundColor = 'blue';
+  }
+});
