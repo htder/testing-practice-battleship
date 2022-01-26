@@ -12,7 +12,7 @@ const createRandShipPlacement = function () {
   ];
 };
 
-const placeShip = function (ship, gameboard) {
+const placeShip = function placeShip(ship, gameboard) {
   let randomPlacement = createRandShipPlacement();
   let isPlacmentValid = gameboard.isShipPlacementValid(
     ...randomPlacement,
@@ -83,7 +83,7 @@ const showPlayerShipPosition = function showPlayerShipPosition(
   const playerGameBoard = gameboard.getBoard();
   //   console.log(playerGameBoard);
   Array.from(gridContainer.childNodes).forEach((cell) => {
-    const [name, x, y] = cell.dataset.info.split(',');
+    const [, x, y] = cell.dataset.info.split(',');
     // console.log(`${name} ${x} ${y}`);
     if (playerGameBoard[x][y].ship) {
       cell.style.backgroundColor = 'red';
@@ -93,25 +93,36 @@ const showPlayerShipPosition = function showPlayerShipPosition(
 
 showPlayerShipPosition(pGameBoard, gridContainer1);
 showPlayerShipPosition(cGameBoard, gridContainer2);
+let playerScore = 0;
+let computerScore = 0;
+const computerGuesses = new Map();
 
 gridContainer2.addEventListener('click', (event) => {
   if (turn) {
-    const [name, x, y] = event.target.dataset.info.split(',');
+    const [, x, y] = event.target.dataset.info.split(',');
     const cell = event.target;
+    if (cell.classList.contains('previous')) return;
     if (cGameBoard.getBoard()[x][y].ship) {
       cell.style.backgroundColor = 'blue';
+      playerScore += 1;
     } else {
       cell.style.backgroundColor = 'grey';
     }
+    cell.classList.add('previous');
     turn = 0;
   }
 
   const playersCells = Array.from(gridContainer1.childNodes);
-  const random = Math.floor(Math.random() * 100);
+  let random = Math.floor(Math.random() * 100);
+  while (computerGuesses.has(random)) {
+    random = Math.floor(Math.random() * 100);
+  }
+  computerGuesses.set(random, random);
   const computerCell = playersCells[random];
-  const [nameC, xC, yC] = computerCell.dataset.info.split(',');
+  const [, xC, yC] = computerCell.dataset.info.split(',');
   if (pGameBoard.getBoard()[xC][yC].ship) {
     computerCell.style.backgroundColor = 'blue';
+    computerScore += 1;
   } else {
     computerCell.style.backgroundColor = 'grey';
   }
