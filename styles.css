@@ -9,8 +9,8 @@
 .grid-container {
   flex-direction: row;
   display: grid;
-  border: 4px solid black;
-  border-radius: 10px;
+  border: 1px solid black;
+  border-radius: 2px;
   width: 360px;
   height: 360px;
   row-gap: 0;
@@ -19,4 +19,8 @@
 
 .colorCell0 {
   border: 1px solid black;
+}
+
+h2 {
+  font-size: 38px;
 }

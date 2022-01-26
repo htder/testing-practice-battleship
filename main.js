@@ -93,12 +93,29 @@ const showPlayerShipPosition = function showPlayerShipPosition(
 
 showPlayerShipPosition(pGameBoard, gridContainer1);
 showPlayerShipPosition(cGameBoard, gridContainer2);
+
+function displayWinner(winner) {
+  while (flexContainer.firstChild) {
+    flexContainer.removeChild(flexContainer.lastChild);
+  }
+  const winnerName = winner.name;
+  const winnerH2 = document.createElement('h2');
+  let text;
+  if (winnerName === 'player1') {
+    text = 'You have won!';
+  } else {
+    text = 'The computer beat you!';
+  }
+  winnerH2.textContent = text;
+  flexContainer.append(winnerH2);
+}
 let playerScore = 0;
 let computerScore = 0;
 const computerGuesses = new Map();
 
 gridContainer2.addEventListener('click', (event) => {
   if (turn) {
+    if (event.target.dataset.info === undefined) return;
     const [, x, y] = event.target.dataset.info.split(',');
     const cell = event.target;
     if (cell.classList.contains('previous')) return;
@@ -110,6 +127,9 @@ gridContainer2.addEventListener('click', (event) => {
     }
     cell.classList.add('previous');
     turn = 0;
+    if (playerScore === 17) {
+      displayWinner(player);
+    }
   }
 
   const playersCells = Array.from(gridContainer1.childNodes);
@@ -127,4 +147,7 @@ gridContainer2.addEventListener('click', (event) => {
     computerCell.style.backgroundColor = 'grey';
   }
   turn = 1;
+  if (computerScore === 17) {
+    displayWinner(computer);
+  }
 });
