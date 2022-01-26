@@ -24,7 +24,7 @@ const placeShip = function (ship, gameboard) {
 };
 
 const player = Player('player1');
-const computer = Player('player2');
+const computer = Player('computer');
 
 const createNewGame = function () {
   // users game items
@@ -60,13 +60,16 @@ function createGrid(gridSize, user) {
     gridContainer = gridContainer2;
   }
   const dimension = `${360 / gridSize}px`;
-  for (let i = 0; i < gridSize * gridSize; i += 1) {
-    const gridItem = document.createElement('div');
-    gridItem.style.width = dimension;
-    gridItem.style.height = dimension;
-    gridItem.classList.add('colorCell0');
+  for (let i = 0; i < gridSize; i += 1) {
+    for (let j = 0; j < gridSize; j += 1) {
+      const gridItem = document.createElement('div');
+      gridItem.dataset.info = `${user.name},${i},${j}`;
+      gridItem.style.width = dimension;
+      gridItem.style.height = dimension;
+      gridItem.classList.add('colorCell0');
 
-    gridContainer.appendChild(gridItem);
+      gridContainer.appendChild(gridItem);
+    }
   }
   gridContainer.style.gridTemplateRows = `repeat(${gridSize}, ${dimension})`;
   gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, ${dimension})`;
